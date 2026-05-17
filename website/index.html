@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUPSA SACCO — Credit Risk Analytics Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-badge">R</div>
+      <div class="logo-name">RUPSA SACCO</div>
+      <div class="logo-sub">Credit Risk Portal</div>
+    </div>
+    <div class="sidebar-section">Analytics</div>
+    <div class="nav-item active" onclick="nav('dashboard', this)">
+      <span class="nav-icon">▦</span> Portfolio Dashboard
+    </div>
+    <div class="nav-item" onclick="nav('calculator', this)">
+      <span class="nav-icon">◈</span> Loan Risk Calculator
+    </div>
+    <div class="sidebar-section">Members</div>
+    <div class="nav-item" onclick="nav('lookup', this)">
+      <span class="nav-icon">◎</span> Member Lookup
+    </div>
+    <div class="sidebar-section">Reference</div>
+    <div class="nav-item" onclick="nav('methodology', this)">
+      <span class="nav-icon">◉</span> Risk Methodology
+    </div>
+    <div class="sidebar-footer">
+      SASRA-regulated<br>
+      Data from Excel dataset<br>
+      RUPSA SACCO © 2026
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="page-title">Portfolio Dashboard</div>
+      <div class="topbar-meta">
+        <span><span class="status-dot"></span>Live dataset</span>
+        <span id="summary-members">— members</span>
+        <span id="summary-portfolio">— portfolio</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="page active" id="page-dashboard">
+        <div class="metrics-grid" id="dashboard-metrics">
+          <div class="metric-card">
+            <div class="metric-label">Total Portfolio</div>
+            <div class="metric-value" id="metric-portfolio">—</div>
+            <div class="metric-sub">KSh outstanding balance</div>
+          </div>
+          <div class="metric-card warn">
+            <div class="metric-label">PAR 30</div>
+            <div class="metric-value warn" id="metric-par30">—</div>
+            <div class="metric-sub">Balance >30 days</div>
+          </div>
+          <div class="metric-card danger">
+            <div class="metric-label">PAR 90</div>
+            <div class="metric-value danger" id="metric-par90">—</div>
+            <div class="metric-sub">Balance >90 days</div>
+          </div>
+          <div class="metric-card gold">
+            <div class="metric-label">Collection Rate</div>
+            <div class="metric-value good" id="metric-collection">—</div>
+            <div class="metric-sub">Estimated recovery</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Risk Classification</div>
+            <div class="risk-row">
+              <span class="risk-name"><span class="dot" style="background:#2E7D52"></span>Performing</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-performing" style="width:0;background:#2E7D52"></div></div>
+              <span class="risk-pct" id="pct-performing">—</span>
+              <span class="risk-kshs" id="amt-performing">—</span>
+            </div>
+            <div class="risk-row">
+              <span class="risk-name"><span class="dot" style="background:#E67E22"></span>Watch</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-watch" style="width:0;background:#E67E22"></div></div>
+              <span class="risk-pct" id="pct-watch">—</span>
+              <span class="risk-kshs" id="amt-watch">—</span>
+            </div>
+            <div class="risk-row">
+              <span class="risk-name"><span class="dot" style="background:#D35400"></span>Substandard</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-substandard" style="width:0;background:#D35400"></div></div>
+              <span class="risk-pct" id="pct-substandard">—</span>
+              <span class="risk-kshs" id="amt-substandard">—</span>
+            </div>
+            <div class="risk-row">
+              <span class="risk-name"><span class="dot" style="background:#C0392B"></span>Doubtful</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-doubtful" style="width:0;background:#C0392B"></div></div>
+              <span class="risk-pct" id="pct-doubtful">—</span>
+              <span class="risk-kshs" id="amt-doubtful">—</span>
+            </div>
+            <div class="risk-row">
+              <span class="risk-name"><span class="dot" style="background:#922B21"></span>Loss</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-loss" style="width:0;background:#922B21"></div></div>
+              <span class="risk-pct" id="pct-loss">—</span>
+              <span class="risk-kshs" id="amt-loss">—</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Portfolio Snapshot</div>
+            <div class="product-row">
+              <span class="product-name">Loan accounts</span>
+              <span class="product-kshs" id="pool-products">—</span>
+            </div>
+            <div class="product-row">
+              <span class="product-name">Active loan balance</span>
+              <span class="product-kshs" id="pool-balance">—</span>
+            </div>
+            <div class="product-row">
+              <span class="product-name">Unique members</span>
+              <span class="product-kshs" id="pool-members">—</span>
+            </div>
+            <div class="product-row">
+              <span class="product-name">Average loan size</span>
+              <span class="product-kshs" id="pool-average">—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Top Member Risk Cases</div>
+          <table class="data-table" id="top-risk-table">
+            <thead>
+              <tr>
+                <th>Member No.</th>
+                <th>Name</th>
+                <th>Loan Type</th>
+                <th>Balance</th>
+                <th>Days Arrears</th>
+                <th>Classification</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="page" id="page-calculator">
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-title">Loan Risk Calculator</div>
+          <p class="method-desc">Select a loan product and the calculator will auto-apply the corresponding interest profile. This is ideal for plausibility checks before appraisal.</p>
+          <div class="calc-grid">
+            <div class="field-group">
+              <label>Loan Type</label>
+              <select id="c-type"></select>
+            </div>
+            <div class="field-group">
+              <label>Loan Amount (KSh)</label>
+              <input type="number" id="c-amount" value="200000" placeholder="e.g. 200000">
+            </div>
+            <div class="field-group">
+              <label>Loan Term (Months)</label>
+              <input type="number" id="c-term" value="24" placeholder="e.g. 24">
+            </div>
+          </div>
+          <div class="calc-grid">
+            <div class="field-group">
+              <label>Member Deposits (KSh)</label>
+              <input type="number" id="c-deposits" value="80000" placeholder="e.g. 80000">
+            </div>
+            <div class="field-group">
+              <label>Current Arrears Days</label>
+              <input type="number" id="c-arrears" value="0" placeholder="0">
+            </div>
+            <div class="field-group">
+              <label>Annual Interest Rate (%)</label>
+              <input type="number" id="c-rate" value="12" step="0.1" placeholder="e.g. 12" readonly>
+            </div>
+          </div>
+          <div class="field-note" id="calc-note">Auto-applied monthly interest: <strong id="monthly-rate">1.00%</strong></div>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+            <button class="btn-primary" onclick="calcRisk()">Run Risk Assessment →</button>
+            <button class="btn-secondary" onclick="resetCalc()">Reset</button>
+          </div>
+        </div>
+
+        <div id="calc-result" style="display:none">
+          <div class="card">
+            <div class="card-title">Assessment Result</div>
+            <div class="result-grid">
+              <div class="result-box">
+                <div class="r-label">Monthly Repayment</div>
+                <div class="r-val" id="r-emi">—</div>
+                <div class="metric-sub">KSh</div>
+              </div>
+              <div class="result-box">
+                <div class="r-label">Loan-to-Deposit Ratio</div>
+                <div class="r-val" id="r-ltd">—</div>
+                <div class="metric-sub">%</div>
+              </div>
+              <div class="result-box">
+                <div class="r-label">Interest Rate</div>
+                <div class="r-val" id="r-rate">—</div>
+                <div class="metric-sub">Annual</div>
+              </div>
+              <div class="result-box">
+                <div class="r-label">Credit Verdict</div>
+                <div class="r-val" id="r-verdict">—</div>
+                <div class="metric-sub">Preliminary</div>
+              </div>
+            </div>
+            <div class="risk-verdict low" id="r-verdict-card">
+              <div>
+                <div class="verdict-level" id="verdict-level">Healthy</div>
+                <div class="verdict-text" id="verdict-text">Member is within conservative exposure thresholds.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" id="page-lookup">
+        <div class="card">
+          <div class="card-title">Member Lookup</div>
+          <p class="method-desc">Search the live Excel dataset by member number, phone number or account ID. Enter a 6-digit member number without the letter M.</p>
+          <div class="search-bar">
+            <input type="search" id="lookup-input" placeholder="000020 or +254725207022 or 0000000020">
+            <button class="btn-primary" onclick="searchMember()">Search</button>
+          </div>
+          <div id="lookup-message" class="empty-state"></div>
+          <div id="lookup-results" style="display:none">
+            <div class="member-profile card" id="lookup-profile"></div>
+            <div class="card" style="margin-top:16px">
+              <div class="section-header">
+                <div class="card-title">Loan Records</div>
+                <span class="section-tag" id="lookup-count">— loans</span>
+              </div>
+              <table class="data-table" id="lookup-table">
+                <thead>
+                  <tr>
+                    <th>Loan Type</th>
+                    <th>Balance</th>
+                    <th>Arrears</th>
+                    <th>Rate</th>
+                    <th>Classification</th>
+                    <th>Maturity</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" id="page-methodology">
+        <div class="card">
+          <div class="card-title">Methodology</div>
+          <div class="method-item">
+            <div class="method-title">Data Source</div>
+            <div class="method-desc">The portal reads the SACCO loan portfolio from the attached Excel workbook and visualizes member credit exposures, classification, and arrears.</div>
+          </div>
+          <div class="method-item">
+            <div class="method-title">Loan Product Rates</div>
+            <div class="method-desc">Calculator rates are auto-applied by loan category. Normal loan uses 1.0% monthly, Emergency loan uses 1.3% monthly, School Fees loan uses 1.15% monthly, and M-Cash loan uses 5.0% monthly.</div>
+          </div>
+          <div class="method-item">
+            <div class="method-title">Member Lookup</div>
+            <div class="method-desc">Search using either the zero-padded member number, the raw phone number, or the account ID. Member numbers in the dataset are matched without the `M-` prefix.</div>
+          </div>
+          <div class="formula-block">EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
