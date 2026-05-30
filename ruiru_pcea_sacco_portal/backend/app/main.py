@@ -22,11 +22,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router)
-app.include_router(members.router)
-app.include_router(loans.router)
-app.include_router(dashboard.router)
-app.include_router(risk.router)
+app.include_router(auth)
+app.include_router(members)
+app.include_router(loans)
+app.include_router(dashboard)
+app.include_router(risk)
 
 
 @app.get("/")
