@@ -201,9 +201,8 @@ This project is for educational and professional use. All SACCO data is anonymiz
 
 **Mwatha Maina**  
 Credit Officer, RUPSA SACCO Society Limited  
-[Email] [LinkedIn] [GitHub]
-
----
+[mwaszac2@gmail.com] [LinkedIn: 
+Mwatha Maina] [Github: THA_011]
 
 **Status:** ✅ Production-ready  
 **Last Updated:** May 16, 2026
